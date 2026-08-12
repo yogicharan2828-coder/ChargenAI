@@ -1,0 +1,149 @@
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  height: calc(100vh - 80px);
+  background: #111827;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  color: #cbd5e1;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu-item:hover {
+  background: #1f2937;
+  color: white;
+}
+
+.menu-item.active {
+  background: linear-gradient(135deg,#7c3aed,#9333ea);
+  color: white;
+}
+
+/* ======================================================
+   RESPONSIVE BREAKPOINTS
+   1024px → tablet landscape: shrink to icon-only rail
+   768px  → tablet portrait / phone: flip to horizontal top bar
+   480px  → small phone: tighten the horizontal bar further
+   ====================================================== */
+
+/* ---------- 1024px: icon-only vertical rail ---------- */
+@media (max-width: 1024px) {
+
+  .sidebar{
+    width:84px;
+    min-width:84px;
+    padding:20px 8px;
+  }
+
+  .menu-item{
+    justify-content:center;
+    padding:12px 8px;
+    gap:0;
+    font-size:20px;
+  }
+
+  .menu-item span{
+    display:none;
+  }
+}
+
+/* ---------- 768px: horizontal top bar ---------- */
+@media (max-width: 768px) {
+
+  .sidebar{
+    box-sizing: border-box;      /* FIX: was defaulting to content-box,
+                                     so width:100% + padding pushed the
+                                     sidebar wider than the viewport */
+    width:100%;
+    min-width: 0;                /* FIX: allow this flex item to be
+                                     constrained by its container instead
+                                     of growing to fit its content */
+    max-width: 100%;
+    height:auto;
+    flex-direction:row;
+    justify-content:flex-start;
+    border-right:none;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:10px 12px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+
+    /* Soften the scrollbar without disabling scroll */
+    scrollbar-width: thin;         /* Firefox */
+    -ms-overflow-style: none;      /* legacy Edge/IE */
+  }
+
+  .sidebar::-webkit-scrollbar{
+    height: 4px;
+  }
+  .sidebar::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+  }
+  .sidebar::-webkit-scrollbar-track{
+    background: transparent;
+  }
+
+  .menu{
+    flex-direction:row;
+    gap:6px;
+    min-width: max-content;      /* keeps items from being squeezed;
+                                     lets .sidebar's overflow-x handle
+                                     the extra width via scrolling */
+  }
+
+  .menu-item{
+    flex:0 0 auto;                /* already prevents shrink/overlap */
+    flex-direction:column;
+    gap:4px;
+    padding:8px 14px;
+    border-radius:12px;
+    font-size:20px;
+    white-space:nowrap;
+  }
+
+  .menu-item span{
+    display:block;
+    font-size:11px;
+  }
+}
+
+/* ---------- 480px: small phone ---------- */
+@media (max-width: 480px) {
+
+  .sidebar{
+    padding:8px 10px;
+  }
+
+  .menu{
+    gap:4px;
+  }
+
+  .menu-item{
+    padding:8px 10px;
+    font-size:18px;
+  }
+
+  .menu-item span{
+    font-size:10px;
+  }
+}

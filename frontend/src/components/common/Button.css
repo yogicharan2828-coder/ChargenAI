@@ -1,0 +1,41 @@
+.primary-btn{
+
+    background:linear-gradient(
+
+        135deg,
+
+        #7C3AED,
+
+        #8B5CF6
+
+    );
+
+    color:white;
+
+    padding:14px 24px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    box-shadow:
+
+    0 10px 30px
+
+    rgba(124,58,237,.35);
+
+}
+
+.primary-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+
+    0 15px 40px
+
+    rgba(124,58,237,.55);
+
+}

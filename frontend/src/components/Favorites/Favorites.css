@@ -1,0 +1,58 @@
+.favorites-page{
+
+    padding:30px;
+
+}
+
+.favorites-page h2{
+
+    color:white;
+
+    margin-bottom:25px;
+
+}
+
+.favorites-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+
+    gap:25px;
+
+}
+
+.favorite-card{
+
+    background:#1a1a28;
+
+    border-radius:20px;
+
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+
+}
+
+.favorite-card:hover{
+
+    transform:translateY(-6px);
+    border-color:rgba(139,92,246,.4);
+    box-shadow:0 16px 36px rgba(99,102,241,.28);
+
+}
+
+.favorite-card img{
+
+    width:100%;
+
+    display:block;
+    transition: transform 0.35s ease;
+
+}
+
+.favorite-card:hover img{
+
+    transform:scale(1.06);
+
+}

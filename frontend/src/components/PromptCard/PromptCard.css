@@ -1,0 +1,194 @@
+.prompt-card{
+
+background:#111827;
+
+border:1px solid rgba(255,255,255,.06);
+
+border-radius:22px;
+
+padding:24px;
+background:rgba(24,30,54,.75);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.08);
+box-shadow:0 10px 40px rgba(0,0,0,.35);
+
+}
+
+.prompt-card textarea{
+
+width:100%;
+
+height:170px;
+
+margin-top:20px;
+
+background:#0F172A;
+
+border:none;
+
+outline:none;
+
+padding:18px;
+
+border-radius:14px;
+
+color:white;
+
+font-size:16px;
+
+resize:none;
+
+}
+
+.prompt-actions{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin:18px 0;
+
+}
+
+.enhance-btn{
+
+background:rgba(124,58,237,.12);
+
+border:1px solid rgba(124,58,237,.4);
+
+color:white;
+
+padding:12px 18px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+font-weight:600;
+
+transition:.3s;
+
+}
+
+.enhance-btn:hover{
+
+background:#7C3AED;
+
+transform:translateY(-2px);
+
+}
+
+.char-count{
+
+font-size:14px;
+
+color:#94A3B8;
+
+}
+
+.controls{
+
+display:flex;
+
+gap:16px;
+
+margin-top:20px;
+
+}
+
+.controls select{
+
+flex:1;
+
+padding:14px;
+
+background:#1E293B;
+
+color:white;
+
+border:none;
+
+border-radius:12px;
+
+}
+
+.controls button{
+
+padding:14px 28px;
+
+border:none;
+
+border-radius:12px;
+
+background:linear-gradient(135deg,#7C3AED,#9333EA);
+
+color:white;
+
+font-weight:600;
+
+cursor:pointer;
+
+}
+
+.controls button:hover{
+
+transform:translateY(-2px);
+
+}
+
+.generate-btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+/* ============ Responsive ============ */
+
+@media (max-width: 768px){
+
+  .prompt-card{
+    padding:18px;
+  }
+
+  .prompt-card textarea{
+    height:140px;
+  }
+
+  .controls{
+    flex-wrap:wrap;
+  }
+
+  .controls select{
+    flex:1 1 45%;
+  }
+
+  .controls button{
+    flex:1 1 100%;
+  }
+
+}
+
+@media (max-width: 480px){
+
+  .prompt-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .prompt-card textarea{
+    height:130px;
+    padding:14px;
+  }
+
+  .prompt-actions{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .controls select{
+    flex:1 1 100%;
+  }
+
+}

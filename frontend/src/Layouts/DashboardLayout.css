@@ -1,0 +1,42 @@
+.dashboard-layout{
+  display:flex;
+  height:calc(100vh - 90px);
+}
+
+.dashboard-content{
+  flex:1;
+  padding:35px;
+  background:#09090B;
+  overflow-y:auto;
+}
+
+/* ======================================================
+   RESPONSIVE BREAKPOINTS
+   Matches the Sidebar.css breakpoints:
+   768px and below → sidebar becomes a horizontal top bar,
+   so the layout must stack vertically instead of side-by-side.
+   ====================================================== */
+
+@media (max-width: 768px) {
+
+  .dashboard-layout{
+    flex-direction:column;
+    height:auto;
+    min-height:calc(100vh - 90px);
+    min-width: 0;      /* safety: never let this flex child force
+                          page-level width growth */
+    width: 100%;
+  }
+
+  .dashboard-content{
+    padding:20px;
+    min-width: 0;       /* same safety, no visual change */
+  }
+}
+
+@media (max-width: 480px) {
+
+  .dashboard-content{
+    padding:14px;
+  }
+}

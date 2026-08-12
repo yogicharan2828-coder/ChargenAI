@@ -1,0 +1,696 @@
+/* =========================================
+   BOX-SIZING RESET (scoped to Navbar only)
+   Without this, elements that combine width:100%
+   with padding (e.g. the search input) render wider
+   than their container and cause horizontal overflow.
+   ========================================= */
+.navbar,
+.navbar *,
+.navbar *::before,
+.navbar *::after {
+  box-sizing: border-box;
+}
+
+.navbar{
+
+height:90px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:0 40px;
+
+background:rgba(17,24,39,.8);
+
+backdrop-filter:blur(18px);
+
+border-bottom:1px solid rgba(255,255,255,.06);
+
+position:sticky;
+
+top:0;
+
+z-index:1000;
+
+}
+
+.logo{
+
+font-size:30px;
+
+font-weight:700;
+
+}
+
+.logo-gradient{
+
+background:linear-gradient(90deg,#8B5CF6,#22D3EE);
+
+-webkit-background-clip:text;
+
+-webkit-text-fill-color:transparent;
+
+}
+
+.search{
+
+width:45%;
+
+position:relative;
+
+}
+
+.search input{
+
+width:100%;
+
+padding:16px 20px;
+
+background:#0F172A;
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:14px;
+
+color:white;
+
+transition: border-color 0.22s ease, box-shadow 0.22s ease;
+
+}
+
+.search input:focus{
+
+outline:none;
+
+border-color: rgba(139,92,246,.5);
+
+box-shadow: 0 0 0 3px rgba(139,92,246,.15);
+
+}
+
+.search-dropdown{
+
+position:absolute;
+
+top:calc(100% + 10px);
+
+left:0;
+
+right:0;
+
+background: linear-gradient(180deg, rgba(24,30,54,.97), rgba(15,20,38,.98));
+
+backdrop-filter: blur(20px);
+
+-webkit-backdrop-filter: blur(20px);
+
+border: 1px solid rgba(139,92,246,.25);
+
+border-radius: 16px;
+
+box-shadow: 0 20px 48px rgba(0,0,0,.5), 0 0 24px rgba(139,92,246,.12);
+
+padding: 10px;
+
+max-height: 420px;
+
+overflow-y: auto;
+
+z-index: 1001;
+
+}
+
+.search-section{
+
+margin-bottom: 6px;
+
+}
+
+.search-section:last-child{
+
+margin-bottom: 0;
+
+}
+
+.search-section-title{
+
+font-size: 11px;
+
+font-weight: 700;
+
+letter-spacing: 0.06em;
+
+text-transform: uppercase;
+
+color: #8b93a7;
+
+padding: 8px 10px 6px;
+
+}
+
+.search-result-item{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:10px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+transition: background 0.18s ease;
+
+}
+
+.search-result-item:hover{
+
+background: rgba(139,92,246,.14);
+
+}
+
+.search-result-thumb{
+
+width:42px;
+
+height:42px;
+
+border-radius:9px;
+
+object-fit:cover;
+
+flex-shrink:0;
+
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+.search-result-icon{
+
+width:42px;
+
+height:42px;
+
+border-radius:9px;
+
+background: rgba(139,92,246,.15);
+
+border:1px solid rgba(139,92,246,.25);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:18px;
+
+flex-shrink:0;
+
+}
+
+.search-result-text-block{
+
+display:flex;
+
+flex-direction:column;
+
+gap:2px;
+
+min-width:0;
+
+}
+
+.search-result-text{
+
+font-size:14px;
+
+color:#f1f5f9;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+/* Without min-width:0 a flex item won't shrink below its content's
+   natural width, so long prompts/names would overflow the row
+   instead of truncating with the ellipsis above. */
+min-width:0;
+
+}
+
+.search-result-subtext{
+
+font-size:12px;
+
+color:#8b93a7;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+.search-view-all{
+
+padding:9px 10px;
+
+font-size:13px;
+
+font-weight:600;
+
+color:#c4b5fd;
+
+cursor:pointer;
+
+border-radius:10px;
+
+transition: background 0.18s ease;
+
+}
+
+.search-view-all:hover{
+
+background: rgba(139,92,246,.12);
+
+}
+
+.search-empty{
+
+padding:26px 10px;
+
+text-align:center;
+
+font-size:13.5px;
+
+color:#8b93a7;
+
+}
+
+.nav-right{
+
+display:flex;
+
+gap:20px;
+
+align-items:center;
+
+flex-shrink:0;
+
+}
+
+.upgrade-btn{
+
+padding:12px 20px;
+
+background:linear-gradient(135deg,#7C3AED,#A855F7);
+box-shadow: 0 10px 35px rgba(124, 58, 237, .45);
+
+border-radius:12px;
+
+color:white;
+
+font-weight:600;
+
+white-space:nowrap;
+
+}
+
+.avatar{
+
+width:45px;
+
+height:45px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#7C3AED;
+
+font-weight:700;
+
+}
+/* =========================================
+   PROFILE / AUTH DROPDOWN
+   ========================================= */
+
+.profile-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #4f46e5
+  );
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.avatar:hover,
+.avatar-active {
+  transform: scale(1.05);
+  border-color: rgba(139, 92, 246, 0.7);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 285px;
+  max-width: calc(100vw - 24px);
+  padding: 10px;
+  border-radius: 16px;
+
+  background: rgba(17, 24, 39, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45);
+
+  z-index: 1000;
+
+  animation: profileDropdownIn 0.18s ease-out;
+}
+
+@keyframes profileDropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.profile-avatar-large {
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #4f46e5
+  );
+
+  color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.profile-user-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.profile-user-info strong {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-user-info span {
+  color: #94a3b8;
+  font-size: 12px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-divider {
+  height: 1px;
+  margin: 6px 4px;
+
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.profile-menu-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 11px 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+  color: #e5e7eb;
+
+  font-size: 14px;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.profile-menu-item:hover {
+  background: rgba(124, 58, 237, 0.14);
+  color: #ffffff;
+}
+
+.profile-menu-item span {
+  width: 20px;
+  text-align: center;
+}
+
+.profile-menu-item.logout {
+  color: #f87171;
+}
+
+.profile-menu-item.logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #fb7185;
+}
+
+.profile-menu-item:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.login-avatar {
+  width: auto;
+  min-width: 64px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+/* =========================================
+   RESPONSIVE — MOBILE / TABLET (below 1024px)
+
+   Everything under 1024px gets the SAME wrap
+   treatment, so there's no dead zone between
+   768px and 1024px where search gets squeezed
+   back onto row 1.
+
+   Row 1: .logo + .nav-right (order 1 / 2)
+   Row 2: .search, forced full-width (order 3)
+
+   `order` only changes visual position inside
+   the flex layout — it does not touch the DOM,
+   so all JS/handlers/refs are unaffected.
+   ========================================= */
+@media (max-width: 1023px) {
+
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 90px;
+    padding: 20px 24px;
+    row-gap: 16px;
+    column-gap: 16px;
+  }
+
+  .logo {
+    order: 1;
+    font-size: 26px;
+  }
+
+  .nav-right {
+    order: 2;
+    gap: 14px;
+  }
+
+  .search {
+    order: 3;
+    width: 100%;
+    flex: 0 0 100%;
+    /* search input/border-radius/height are intentionally
+       left untouched below — same styling as desktop */
+  }
+
+  .search-dropdown {
+    max-height: min(420px, 60vh);
+  }
+
+}
+
+/* Slightly tighter row-1 sizing once we're clearly in
+   phone territory. Search itself is still untouched. */
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 16px 20px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  .nav-right {
+    gap: 12px;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .profile-dropdown {
+    right: -5px;
+    width: min(285px, calc(100vw - 30px));
+  }
+
+  .navbar {
+    padding: 12px 14px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .nav-right {
+    gap: 10px;
+  }
+
+  .upgrade-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .profile-avatar-large {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .login-avatar {
+    min-width: 58px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+
+}
+
+@media (max-width: 375px) {
+
+  .navbar {
+    padding: 10px 12px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .nav-right {
+    gap: 8px;
+  }
+
+  .upgrade-btn {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
+  }
+
+  .login-avatar {
+    min-width: 50px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  .search-section-title {
+    font-size: 10px;
+  }
+
+  .search-result-text,
+  .search-result-subtext {
+    font-size: 12.5px;
+  }
+
+}

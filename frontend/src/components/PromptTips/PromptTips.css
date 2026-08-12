@@ -1,0 +1,92 @@
+.tips-card{
+  position: relative;
+  background: linear-gradient(160deg, rgba(99,102,241,0.08), rgba(139,92,246,0.04) 50%, rgba(255,255,255,0.02) 100%);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 22px;
+  padding: 26px 24px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 10px 32px rgba(0,0,0,.32);
+  overflow: hidden;
+}
+
+.tips-card::before{
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(139,92,246,0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.tips-card h3{
+  position: relative;
+  margin: 0 0 4px 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #f4f4f5;
+}
+
+.tips-card ul{
+  position: relative;
+  margin-top: 18px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.tips-card li{
+  position: relative;
+  margin-bottom: 2px;
+  padding: 10px 12px 10px 26px;
+  border-radius: 12px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: default;
+  transition: background 0.22s ease, color 0.22s ease, transform 0.22s ease;
+}
+
+.tips-card li::before{
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #a78bfa;
+}
+
+.tips-card li:hover{
+  background: rgba(139,92,246,0.10);
+  color: #f4f4f5;
+  transform: translateX(3px);
+}
+
+/* ============ Responsive ============ */
+
+@media (max-width: 768px){
+
+  .tips-card{
+    padding:18px;
+  }
+
+}
+
+@media (max-width: 480px){
+
+  .tips-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .tips-card li{
+    padding: 9px 10px 9px 22px;
+    font-size: 13.5px;
+  }
+
+}

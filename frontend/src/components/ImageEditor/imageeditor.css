@@ -1,0 +1,388 @@
+/* ImageEditor.css — scoped styling for the AI Image Editor component */
+
+.image-editor {
+  --ie-bg-panel: rgba(255, 255, 255, 0.04);
+  --ie-bg-panel-hover: rgba(255, 255, 255, 0.06);
+  --ie-border: rgba(255, 255, 255, 0.09);
+  --ie-border-strong: rgba(168, 85, 247, 0.45);
+  --ie-purple: #8b5cf6;
+  --ie-violet: #a855f7;
+  --ie-cyan: #22d3ee;
+  --ie-text: #f1f5f9;
+  --ie-text-muted: #9ca3af;
+  --ie-radius-lg: 20px;
+  --ie-radius-md: 14px;
+  --ie-radius-sm: 10px;
+  --ie-shadow-glow: 0 8px 32px rgba(139, 92, 246, 0.18);
+
+  width: 100%;
+  max-width: 960px;
+  margin: 2.5rem auto;
+  color: var(--ie-text);
+  font-family: inherit;
+}
+
+.image-editor-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.image-editor-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem 0;
+  background: linear-gradient(90deg, var(--ie-purple), var(--ie-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.image-editor-sparkle {
+  -webkit-text-fill-color: initial;
+  filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.6));
+}
+
+.image-editor-subtitle {
+  margin: 0;
+  color: var(--ie-text-muted);
+  font-size: 0.95rem;
+}
+
+.image-editor-panel {
+  position: relative;
+  background: linear-gradient(
+    160deg,
+    rgba(139, 92, 246, 0.08),
+    rgba(34, 211, 238, 0.04)
+  );
+  border: 1px solid var(--ie-border);
+  border-radius: var(--ie-radius-lg);
+  padding: 1.75rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--ie-shadow-glow);
+}
+
+/* ---------- Dropzone ---------- */
+
+.image-editor-dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 3rem 1.5rem;
+  border: 1.5px dashed var(--ie-border);
+  border-radius: var(--ie-radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.image-editor-dropzone:hover,
+.image-editor-dropzone:focus-visible {
+  border-color: var(--ie-purple);
+  background: rgba(139, 92, 246, 0.06);
+  outline: none;
+}
+
+.image-editor-dropzone.is-active {
+  border-color: var(--ie-cyan);
+  background: rgba(34, 211, 238, 0.08);
+  transform: scale(1.01);
+}
+
+.image-editor-dropzone-icon {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+}
+
+.image-editor-dropzone-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.image-editor-dropzone-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--ie-text-muted);
+}
+
+.image-editor-file-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ---------- Edit form ---------- */
+
+.image-editor-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.image-editor-preview-wrap {
+  position: relative;
+  align-self: center;
+  max-width: 320px;
+  width: 100%;
+  border-radius: var(--ie-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--ie-border);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.image-editor-preview-img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.image-editor-change-btn {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.6rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ie-text);
+  background: rgba(15, 15, 25, 0.65);
+  border: 1px solid var(--ie-border);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.image-editor-change-btn:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.35);
+  border-color: var(--ie-purple);
+}
+
+.image-editor-change-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-editor-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ie-text-muted);
+}
+
+.image-editor-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 84px;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--ie-text);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--ie-border);
+  border-radius: var(--ie-radius-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.image-editor-textarea:focus {
+  outline: none;
+  border-color: var(--ie-purple);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18);
+}
+
+.image-editor-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.image-editor-textarea::placeholder {
+  color: rgba(156, 163, 175, 0.7);
+}
+
+.image-editor-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.image-editor-example-chip {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+  color: var(--ie-text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--ie-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.image-editor-example-chip:hover:not(:disabled) {
+  color: var(--ie-text);
+  border-color: var(--ie-cyan);
+  background: rgba(34, 211, 238, 0.08);
+}
+
+.image-editor-example-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-editor-submit-btn {
+  align-self: flex-start;
+  padding: 0.75rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, var(--ie-purple), var(--ie-violet));
+  border: none;
+  border-radius: var(--ie-radius-sm);
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.image-editor-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(139, 92, 246, 0.5);
+}
+
+.image-editor-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---------- Result view ---------- */
+
+.image-editor-result {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.image-editor-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.image-editor-result-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.image-editor-result-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ie-text-muted);
+}
+
+.image-editor-result-img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: var(--ie-radius-md);
+  border: 1px solid var(--ie-border);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.image-editor-result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.image-editor-download-btn,
+.image-editor-again-btn {
+  padding: 0.7rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--ie-radius-sm);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.image-editor-download-btn {
+  color: #fff;
+  background: linear-gradient(90deg, var(--ie-cyan), var(--ie-purple));
+  border: none;
+  box-shadow: 0 4px 18px rgba(34, 211, 238, 0.3);
+}
+
+.image-editor-download-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(34, 211, 238, 0.45);
+}
+
+.image-editor-again-btn {
+  color: var(--ie-text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--ie-border);
+}
+
+.image-editor-again-btn:hover {
+  border-color: var(--ie-purple);
+  background: rgba(139, 92, 246, 0.1);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .image-editor {
+    margin: 2rem auto;
+  }
+
+  .image-editor-panel {
+    padding: 1.25rem;
+  }
+
+  .image-editor-result-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-editor-title {
+    font-size: 1.3rem;
+  }
+
+  .image-editor-dropzone {
+    padding: 2.25rem 1rem;
+  }
+
+  .image-editor-preview-wrap {
+    max-width: 100%;
+  }
+
+  .image-editor-submit-btn {
+    align-self: stretch;
+    text-align: center;
+  }
+
+  .image-editor-result-actions {
+    flex-direction: column;
+  }
+
+  .image-editor-download-btn,
+  .image-editor-again-btn {
+    width: 100%;
+  }
+}
