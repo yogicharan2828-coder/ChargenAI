@@ -1,0 +1,20 @@
+# --- Web framework / server ---
+fastapi>=0.100.0          # Pydantic v2 support (schemas use ConfigDict / from_attributes)
+uvicorn                   # ASGI server — needed to satisfy the Render start command
+python-multipart          # Required by FastAPI for File(...)/Form(...) parsing — used in /edit-image
+
+# --- Database ---
+sqlalchemy>=2.0.0         # ORM used throughout app/models, app/services
+psycopg2-binary           # PostgreSQL driver for the "postgresql://" DATABASE_URL (Supabase)
+
+# --- Validation ---
+pydantic>=2.0.0           # ConfigDict / from_attributes syntax in schemas requires v2
+
+# --- Config / secrets ---
+python-dotenv             # load_dotenv() in auth.py, db.py, image_service.py
+
+# --- HTTP client ---
+requests                  # Used to call Supabase Auth (auth.py) and Cloudflare Workers AI (image_service.py)
+
+# --- Image handling ---
+Pillow                    # `from PIL import Image` — validates/saves generated & edited images in image_service.py
