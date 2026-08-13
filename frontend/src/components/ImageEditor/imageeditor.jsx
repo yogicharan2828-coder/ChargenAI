@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import "./ImageEditor.css";
+import "./imageeditor.css";
 import { editImage } from "../../api/ai";
 import { downloadAllImages } from "../../utils/downloadAllImages";
 
