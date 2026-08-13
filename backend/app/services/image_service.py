@@ -3,6 +3,7 @@ import uuid
 import mimetypes
 import base64
 from io import BytesIO
+from typing import Optional
 
 import requests
 from dotenv import load_dotenv
@@ -10,6 +11,7 @@ from fastapi import HTTPException, UploadFile
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from PIL import Image as PILImage, UnidentifiedImageError
+from supabase import create_client, Client
 
 from app.models.image_model import Image
 
@@ -33,6 +35,154 @@ UPLOAD_DIR = "uploads"
 BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+
+# ==================================================
+# Supabase Storage configuration
+# Used by generate_image() and edit_image() to persist
+# generated/edited PNGs, since Render's local filesystem
+# is ephemeral. The local uploads/ handling above is kept
+# temporarily so delete_image_by_id()/delete_all_images()
+# can still clean up rows created before this migration.
+# ==================================================
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+SUPABASE_STORAGE_BUCKET = "chargen-images"
+
+_supabase_client: Optional[Client] = None
+
+
+def _get_supabase_client() -> Client:
+    global _supabase_client
+
+    if not SUPABASE_URL:
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error_type": "configuration",
+                "message": "SUPABASE_URL is not configured."
+            }
+        )
+
+    if not SUPABASE_SERVICE_ROLE_KEY:
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error_type": "configuration",
+                "message": "SUPABASE_SERVICE_ROLE_KEY is not configured."
+            }
+        )
+
+    if _supabase_client is None:
+        _supabase_client = create_client(
+            SUPABASE_URL,
+            SUPABASE_SERVICE_ROLE_KEY,
+        )
+
+    return _supabase_client
+
+
+def _upload_png_to_supabase_storage(
+    png_bytes: bytes,
+    storage_path: str,
+) -> str:
+    """
+    Uploads PNG bytes to SUPABASE_STORAGE_BUCKET at storage_path and
+    returns the public URL. Raises HTTPException on any failure —
+    callers must not create a database record if this raises.
+    """
+
+    client = _get_supabase_client()
+
+    try:
+        client.storage.from_(SUPABASE_STORAGE_BUCKET).upload(
+            path=storage_path,
+            file=png_bytes,
+            file_options={
+                "content-type": "image/png",
+                # storage3 expects string values here, not Python bools
+                "upsert": "false",
+            },
+        )
+
+    except Exception as exc:
+        raise HTTPException(
+            status_code=502,
+            detail={
+                "error_type": "storage_upload_failed",
+                "message": (
+                    "Failed to upload image to Supabase Storage: "
+                    f"{exc}"
+                )
+            }
+        ) from exc
+
+    try:
+        public_url = (
+            client.storage
+            .from_(SUPABASE_STORAGE_BUCKET)
+            .get_public_url(storage_path)
+        )
+
+    except Exception as exc:
+        # Upload succeeded but the URL could not be resolved — clean
+        # up rather than leaving an orphaned object behind.
+        _delete_from_supabase_storage(storage_path)
+
+        raise HTTPException(
+            status_code=502,
+            detail={
+                "error_type": "storage_url_failed",
+                "message": (
+                    "Image was uploaded but its public URL could "
+                    f"not be retrieved: {exc}"
+                )
+            }
+        ) from exc
+
+    if not public_url:
+        _delete_from_supabase_storage(storage_path)
+
+        raise HTTPException(
+            status_code=502,
+            detail={
+                "error_type": "storage_url_failed",
+                "message": "Supabase Storage returned an empty public URL."
+            }
+        )
+
+    return public_url
+
+
+def _delete_from_supabase_storage(storage_path: str) -> None:
+    """
+    Best-effort delete of a Storage object. Never raises: used both
+    for normal deletes and for cleaning up orphans after a partial
+    failure, neither of which should crash the caller.
+    """
+
+    try:
+        client = _get_supabase_client()
+        client.storage.from_(SUPABASE_STORAGE_BUCKET).remove([storage_path])
+
+    except Exception:
+        pass
+
+
+def _extract_supabase_storage_path(image_url: str) -> Optional[str]:
+    """
+    Returns the '<user_id>/<filename>.png' storage path if image_url
+    points at our Supabase Storage bucket, else None — meaning it's a
+    legacy Render /uploads/... URL predating this migration.
+    """
+
+    marker = f"/storage/v1/object/public/{SUPABASE_STORAGE_BUCKET}/"
+
+    if marker in image_url:
+        return image_url.split(marker, 1)[1]
+
+    return None
 
 
 # --------------------------------------------------
@@ -300,11 +450,14 @@ def generate_image(
         ) from exc
 
     # --------------------------------------------------
-    # Save generated image
+    # Re-encode as PNG in memory (mirrors the previous
+    # on-disk normalization) and upload to Supabase Storage
     # --------------------------------------------------
 
     filename = f"{uuid.uuid4().hex}.png"
-    filepath = os.path.join(UPLOAD_DIR, filename)
+    storage_path = f"{user_id}/{filename}"
+
+    png_buffer = BytesIO()
 
     try:
         with PILImage.open(
@@ -312,17 +465,20 @@ def generate_image(
         ) as generated_pil_image:
 
             generated_pil_image.save(
-                filepath,
+                png_buffer,
                 format="PNG"
             )
 
     except OSError as exc:
         raise HTTPException(
             status_code=500,
-            detail="Failed to save the generated image."
+            detail="Failed to process the generated image."
         ) from exc
 
-    image_url = f"{BASE_URL}/uploads/{filename}"
+    image_url = _upload_png_to_supabase_storage(
+        png_bytes=png_buffer.getvalue(),
+        storage_path=storage_path,
+    )
 
     # --------------------------------------------------
     # Save generated image to database
@@ -352,8 +508,9 @@ def generate_image(
 
         db.rollback()
 
-        if os.path.exists(filepath):
-            os.remove(filepath)
+        # Storage upload already succeeded — remove the now-orphaned
+        # object rather than leaving it behind with no database row.
+        _delete_from_supabase_storage(storage_path)
 
         raise HTTPException(
             status_code=500,
@@ -392,11 +549,19 @@ def delete_image_by_id(image_id: int, db: Session, user_id: str):
             detail="Image not found"
         )
 
-    filename = os.path.basename(image.image_url)
-    filepath = os.path.join(UPLOAD_DIR, filename)
+    storage_path = _extract_supabase_storage_path(image.image_url)
 
-    if os.path.exists(filepath):
-        os.remove(filepath)
+    if storage_path:
+        # New-style image: lives in Supabase Storage.
+        _delete_from_supabase_storage(storage_path)
+    else:
+        # Legacy image predating the Supabase Storage migration —
+        # still lives (if at all) on Render's local uploads/ dir.
+        filename = os.path.basename(image.image_url)
+        filepath = os.path.join(UPLOAD_DIR, filename)
+
+        if os.path.exists(filepath):
+            os.remove(filepath)
 
     db.delete(image)
     db.commit()
@@ -417,19 +582,27 @@ def delete_all_images(db: Session, user_id: str):
         .all()
     )
 
-    for image in images:
-        filename = os.path.basename(image.image_url)
-        filepath = os.path.join(UPLOAD_DIR, filename)
+    deleted_count = len(images)
 
-        if os.path.exists(filepath):
-            os.remove(filepath)
+    for image in images:
+        storage_path = _extract_supabase_storage_path(image.image_url)
+
+        if storage_path:
+            _delete_from_supabase_storage(storage_path)
+        else:
+            filename = os.path.basename(image.image_url)
+            filepath = os.path.join(UPLOAD_DIR, filename)
+
+            if os.path.exists(filepath):
+                os.remove(filepath)
 
         db.delete(image)
 
     db.commit()
 
     return {
-        "success": True
+        "success": True,
+        "deleted_count": deleted_count,
     }
 
 
@@ -712,14 +885,14 @@ def edit_image(
         ) from exc
 
     # --------------------------------------------------
-    # Save edited image
+    # Re-encode as PNG in memory and upload to Supabase
+    # Storage under the authenticated user's folder
     # --------------------------------------------------
 
     filename = f"{uuid.uuid4().hex}.png"
-    filepath = os.path.join(
-        UPLOAD_DIR,
-        filename
-    )
+    storage_path = f"{user_id}/{filename}"
+
+    png_buffer = BytesIO()
 
     try:
         with PILImage.open(
@@ -727,18 +900,19 @@ def edit_image(
         ) as edited_pil_image:
 
             edited_pil_image.save(
-                filepath,
+                png_buffer,
                 format="PNG"
             )
 
     except OSError as exc:
         raise HTTPException(
             status_code=500,
-            detail="Failed to save the edited image."
+            detail="Failed to process the edited image."
         ) from exc
 
-    image_url = (
-        f"{BASE_URL}/uploads/{filename}"
+    image_url = _upload_png_to_supabase_storage(
+        png_bytes=png_buffer.getvalue(),
+        storage_path=storage_path,
     )
 
     # --------------------------------------------------
@@ -764,8 +938,7 @@ def edit_image(
 
         db.rollback()
 
-        if os.path.exists(filepath):
-            os.remove(filepath)
+        _delete_from_supabase_storage(storage_path)
 
         raise HTTPException(
             status_code=500,

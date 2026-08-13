@@ -21,10 +21,6 @@ def create_image(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
-    # NOTE: image_service.generate_image does not yet accept user_id/db.
-    # Passing them now so the next step's service signature change is a
-    # drop-in match. Until image_service.py is updated, this call will
-    # raise a TypeError.
     return generate_image(
         request.prompt,
         request.model,
@@ -94,8 +90,8 @@ def delete_image(
     # Ownership is verified here, before delegating to the service. Since
     # `id` is a unique primary key, confirming ownership first guarantees
     # a user can never trigger deletion of another user's image by
-    # guessing/iterating IDs — even though delete_image_by_id(id, db)
-    # itself has no user filter.
+    # guessing/iterating IDs — even though delete_image_by_id(id, db, user_id)
+    # itself also re-filters by user_id as a second guard.
     image = (
         db.query(Image)
         .filter(Image.id == id, Image.user_id == current_user["id"])
@@ -112,28 +108,13 @@ def delete_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
-    # image_service.delete_all_images(db) has no user filter and would
-    # delete every user's images — delegating to it as-is would be a
-    # cross-user data-loss bug. Ownership filtering is done directly here
-    # instead. NOTE: this bypasses whatever file-cleanup-on-disk logic
-    # lives inside delete_all_images, so uploaded files for these rows
-    # will be orphaned on disk until image_service.py is updated to
-    # accept a user_id filter (expected: delete_all_images(db, user_id)),
-    # at which point this route should go back to delegating to it.
-    images = (
-        db.query(Image)
-        .filter(Image.user_id == current_user["id"])
-        .all()
-    )
-    deleted_count = len(images)
-    for image in images:
-        db.delete(image)
-    db.commit()
-
-    return {
-        "success": True,
-        "deleted_count": deleted_count,
-    }
+    # img_service.delete_all_images(db, user_id) is scoped by user_id and
+    # now also removes each image's Supabase Storage object (with a
+    # legacy /uploads/ fallback), so this delegates to it directly
+    # instead of duplicating the query/delete logic here. Without this
+    # delegation, the Storage cleanup added to the service never runs.
+    # Response shape ({success, deleted_count}) is unchanged.
+    return delete_all_images(db, current_user["id"])
 
 
 @router.post("/edit-image")
@@ -143,7 +124,4 @@ async def edit_image_endpoint(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
-    # Same temporary incompatibility as /generate-image: image_service.edit_image
-    # does not yet accept user_id. Passing it now so the next step's
-    # service signature change is a drop-in match.
     return edit_image(image, prompt, db, current_user["id"])

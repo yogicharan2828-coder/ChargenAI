@@ -11,10 +11,13 @@ psycopg2-binary           # PostgreSQL driver for the "postgresql://" DATABASE_U
 pydantic>=2.0.0           # ConfigDict / from_attributes syntax in schemas requires v2
 
 # --- Config / secrets ---
-python-dotenv             # load_dotenv() in auth.py, db.py, image_service.py
+python-dotenv             # load_dotenv() in auth.py, db.py, img_service.py
 
 # --- HTTP client ---
-requests                  # Used to call Supabase Auth (auth.py) and Cloudflare Workers AI (image_service.py)
+requests                  # Used to call Supabase Auth (auth.py) and Cloudflare Workers AI (img_service.py)
 
 # --- Image handling ---
-Pillow                    # `from PIL import Image` — validates/saves generated & edited images in image_service.py
+Pillow                    # `from PIL import Image` — validates/saves generated & edited images in img_service.py
+
+# --- Object storage ---
+supabase>=2.10.0,<3.0.0   # Official Supabase Python client — Storage API used in img_service.py to upload/delete objects in the chargen-images bucket. Requires Python >= 3.9.
