@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./AIStudio.css";
 import { generateImage, getImages, deleteAllImages } from "../api/ai";
-import RecentPrompts from "../components/RecentPrompts/RecentPrompts";
+import RecentPrompts from "../components/RecentPrompts/Recentprompts";
 import { useAuth } from "../auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Toast from "../components/common/Toast";
