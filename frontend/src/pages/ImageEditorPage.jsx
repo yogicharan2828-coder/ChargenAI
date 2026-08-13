@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Toast from "../components/common/Toast";
-import ImageEditor from "../components/ImageEditor/imageEditor";
+import ImageEditor from "../components/ImageEditor/imageeditor";
 
 function ImageEditorPage() {
   const [showToast, setShowToast] = useState(false);

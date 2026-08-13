@@ -1,4 +1,4 @@
-import "./RecentPrompts.css";
+import "./Recentprompts.css";
 
 function RecentPrompts({
   prompts,
