@@ -12,7 +12,7 @@
 
 🔗 **Live Demo:** https://chargenai.netlify.app/
 
-🔗 **Portfolio:** https://charansharmaportfolio.netlify.app/
+🔗 **Portfolio:https://yogi-charan-sharma-portfolio.netlify.app/
 
 ---
 
