@@ -542,82 +542,85 @@ font-weight:700;
 }
 
 /* =========================================
-   RESPONSIVE — MOBILE / TABLET (below 1024px)
-
-   Everything under 1024px gets the SAME wrap
-   treatment, so there's no dead zone between
-   768px and 1024px where search gets squeezed
-   back onto row 1.
-
-   Row 1: .logo + .nav-right (order 1 / 2)
-   Row 2: .search, forced full-width (order 3)
-
-   `order` only changes visual position inside
-   the flex layout — it does not touch the DOM,
-   so all JS/handlers/refs are unaffected.
+   RESPONSIVE — MOBILE / TABLET
    ========================================= */
-@media (max-width: 1023px) {
 
+@media (max-width: 1023px) {
   .navbar {
+    display: flex;
     flex-wrap: wrap;
     height: auto;
-    min-height: 90px;
-    padding: 20px 24px;
-    row-gap: 16px;
-    column-gap: 16px;
+    min-height: 0;
+    padding: 14px 20px;
+    row-gap: 10px;
+    column-gap: 12px;
+    box-sizing: border-box;
   }
 
+  /* Top row */
   .logo {
     order: 1;
-    font-size: 26px;
+    font-size: 24px;
+    min-width: 0;
+    flex-shrink: 1;
   }
 
   .nav-right {
     order: 2;
-    gap: 14px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
   }
 
+  /* Search becomes its own full-width row */
   .search {
     order: 3;
     width: 100%;
+    max-width: 100%;
     flex: 0 0 100%;
-    /* search input/border-radius/height are intentionally
-       left untouched below — same styling as desktop */
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .search-dropdown {
     max-height: min(420px, 60vh);
+    max-width: 100%;
+    box-sizing: border-box;
   }
-
 }
 
-/* Slightly tighter row-1 sizing once we're clearly in
-   phone territory. Search itself is still untouched. */
-@media (max-width: 768px) {
 
+/* =========================================
+   PHONE
+   ========================================= */
+
+@media (max-width: 768px) {
   .navbar {
-    padding: 16px 20px;
+    padding: 12px 16px;
+    row-gap: 9px;
+    column-gap: 10px;
   }
 
   .logo {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   .nav-right {
-    gap: 12px;
+    gap: 9px;
   }
-
 }
 
+
+/* =========================================
+   SMALL PHONE
+   ========================================= */
+
 @media (max-width: 480px) {
-
-  .profile-dropdown {
-    right: -5px;
-    width: min(285px, calc(100vw - 30px));
-  }
-
   .navbar {
-    padding: 12px 14px;
+    padding: 11px 14px;
+    row-gap: 8px;
   }
 
   .logo {
@@ -625,18 +628,20 @@ font-weight:700;
   }
 
   .nav-right {
-    gap: 10px;
+    gap: 8px;
   }
 
   .upgrade-btn {
-    padding: 8px 14px;
+    padding: 7px 12px;
     font-size: 13px;
+    white-space: nowrap;
   }
 
   .avatar {
     width: 36px;
     height: 36px;
     font-size: 12px;
+    flex-shrink: 0;
   }
 
   .profile-avatar-large {
@@ -646,41 +651,57 @@ font-weight:700;
   }
 
   .login-avatar {
-    min-width: 58px;
-    padding: 0 10px;
+    min-width: 54px;
+    padding: 0 9px;
     font-size: 12px;
   }
 
+  .profile-dropdown {
+    right: 0;
+    width: min(285px, calc(100vw - 28px));
+    max-width: calc(100vw - 28px);
+  }
 }
 
-@media (max-width: 375px) {
 
+/* =========================================
+   VERY SMALL PHONE
+   ========================================= */
+
+@media (max-width: 375px) {
   .navbar {
     padding: 10px 12px;
+    row-gap: 8px;
   }
 
   .logo {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .nav-right {
-    gap: 8px;
+    gap: 7px;
   }
 
   .upgrade-btn {
-    padding: 7px 10px;
+    padding: 6px 9px;
     font-size: 12px;
   }
 
   .avatar {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
+    font-size: 11px;
+  }
+
+  .profile-avatar-large {
+    width: 34px;
+    height: 34px;
     font-size: 11px;
   }
 
   .login-avatar {
     min-width: 50px;
-    padding: 0 8px;
+    padding: 0 7px;
     font-size: 11px;
   }
 
@@ -692,5 +713,4 @@ font-weight:700;
   .search-result-subtext {
     font-size: 12.5px;
   }
-
 }

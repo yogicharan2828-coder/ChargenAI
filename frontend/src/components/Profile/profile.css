@@ -1,0 +1,152 @@
+/* =========================================
+   PROFILE — RESPONSIVE
+   ========================================= */
+
+.profile-page {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* -----------------------------------------
+   Tablet
+   ----------------------------------------- */
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 22px 18px !important;
+  }
+
+  .profile-header-card {
+    padding: 22px 20px !important;
+    gap: 16px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .profile-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .profile-section {
+    margin-bottom: 26px !important;
+  }
+
+  .profile-image-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  .profile-project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+}
+
+/* -----------------------------------------
+   Mobile
+   ----------------------------------------- */
+
+@media (max-width: 480px) {
+  .profile-page {
+    padding: 16px 14px !important;
+  }
+
+  /* Header */
+  .profile-header-card {
+    padding: 20px 16px !important;
+    margin-bottom: 18px !important;
+
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 12px !important;
+
+    border-radius: 16px !important;
+  }
+
+  .profile-header-card > div:first-child {
+    width: 68px !important;
+    height: 68px !important;
+    font-size: 24px !important;
+  }
+
+  .profile-header-card > div:last-child {
+    align-items: center !important;
+  }
+
+  /* Stats */
+  .profile-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .profile-stats-grid > div {
+    padding: 14px !important;
+    gap: 10px !important;
+    border-radius: 14px !important;
+  }
+
+  .profile-stats-grid > div > span {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 17px !important;
+  }
+
+  /* Recent sections */
+  .profile-section {
+    margin-bottom: 24px !important;
+  }
+
+  .profile-image-grid,
+  .profile-project-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Image cards */
+  .profile-image-grid > div {
+    border-radius: 15px !important;
+  }
+
+  .profile-image-grid > div > div:last-child {
+    padding: 13px !important;
+  }
+
+  /* Project cards */
+  .profile-project-grid > div {
+    padding: 16px !important;
+    border-radius: 15px !important;
+  }
+}
+
+/* -----------------------------------------
+   Very small phones
+   ----------------------------------------- */
+
+@media (max-width: 375px) {
+  .profile-page {
+    padding: 14px 12px !important;
+  }
+
+  .profile-header-card {
+    padding: 18px 14px !important;
+  }
+
+  .profile-stats-grid {
+    gap: 8px !important;
+  }
+
+  .profile-stats-grid > div {
+    padding: 12px !important;
+  }
+
+  .profile-stats-grid > div > div {
+    min-width: 0 !important;
+  }
+
+  .profile-stats-grid > div span:last-child {
+    font-size: 11px !important;
+  }
+}

@@ -145,50 +145,67 @@ transform:translateY(-2px);
 
 /* ============ Responsive ============ */
 
-@media (max-width: 768px){
+/* =========================================
+   RESPONSIVE — PROMPT CARD
+   ========================================= */
 
-  .prompt-card{
-    padding:18px;
+@media (max-width: 768px) {
+  .prompt-card {
+    padding: 18px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .prompt-card textarea{
-    height:140px;
+  .prompt-card textarea {
+    height: 140px;
+    min-height: 140px;
+    box-sizing: border-box;
   }
 
-  .controls{
-    flex-wrap:wrap;
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
-  .controls select{
-    flex:1 1 45%;
+  .controls select {
+    flex: 1 1 calc(50% - 5px);
+    min-width: 0;
   }
 
-  .controls button{
-    flex:1 1 100%;
+  .controls button {
+    flex: 1 1 100%;
   }
-
 }
 
-@media (max-width: 480px){
-
-  .prompt-card{
-    padding:14px;
-    border-radius:16px;
+@media (max-width: 480px) {
+  .prompt-card {
+    padding: 14px;
+    border-radius: 16px;
   }
 
-  .prompt-card textarea{
-    height:130px;
-    padding:14px;
+  .prompt-card textarea {
+    height: 125px;
+    min-height: 125px;
+    padding: 13px;
   }
 
-  .prompt-actions{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:10px;
+  .prompt-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
 
-  .controls select{
-    flex:1 1 100%;
+  .controls {
+    gap: 8px;
   }
 
+  .controls select {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+  }
+
+  .controls button {
+    flex: 1 1 100%;
+  }
 }

@@ -84,3 +84,143 @@
   margin-top: 120px;
   color: white;
 }
+/* =========================================
+   RESPONSIVE — HISTORY
+   ========================================= */
+
+@media (max-width: 768px) {
+  .history-page {
+    padding: 20px 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .history-page h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .history-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+  }
+
+  .history-card {
+    min-width: 0;
+    border-radius: 16px;
+  }
+
+  .history-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .history-content {
+    padding: 14px;
+    min-width: 0;
+  }
+
+  .prompt {
+    font-size: 14px;
+    line-height: 1.45;
+
+    /* Prevent very long prompts from breaking the card */
+    overflow-wrap: anywhere;
+  }
+
+  .history-actions {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .history-actions button {
+    min-height: 40px;
+    padding: 9px 8px;
+    font-size: 13px;
+  }
+
+  .empty-history {
+    margin-top: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-page {
+    padding: 18px 14px;
+  }
+
+  .history-page h1 {
+    margin-bottom: 18px;
+    font-size: 22px;
+  }
+
+  .history-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .history-card {
+    border-radius: 16px;
+  }
+
+  .history-card img {
+    aspect-ratio: 4 / 3;
+    height: auto;
+  }
+
+  .history-content {
+    padding: 14px;
+  }
+
+  .prompt {
+    font-size: 14px;
+    line-height: 1.45;
+    margin-bottom: 10px;
+
+    /* Keep extremely long prompts from making cards huge */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .history-actions {
+    gap: 8px;
+  }
+
+  .history-actions button {
+    min-height: 42px;
+    padding: 9px 10px;
+    font-size: 13px;
+  }
+
+  .empty-history {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 375px) {
+  .history-page {
+    padding: 16px 12px;
+  }
+
+  .history-page h1 {
+    font-size: 21px;
+  }
+
+  .history-grid {
+    gap: 14px;
+  }
+
+  .history-content {
+    padding: 12px;
+  }
+
+  .history-actions button {
+    min-height: 40px;
+    font-size: 12px;
+  }
+}

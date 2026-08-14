@@ -129,21 +129,39 @@
 
 /* ---------- 480px: small phone ---------- */
 @media (max-width: 480px) {
-
-  .sidebar{
-    padding:8px 10px;
+  .sidebar {
+    padding: 6px 8px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
-  .menu{
-    gap:4px;
+  .menu {
+    display: flex;
+    gap: 6px;
+    width: max-content;
+    min-width: 100%;
   }
 
-  .menu-item{
-    padding:8px 10px;
-    font-size:18px;
+  .menu-item {
+    padding: 8px 11px;
+    font-size: 17px;
+    min-width: 58px;
+    min-height: 48px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
   }
 
-  .menu-item span{
-    font-size:10px;
+  .menu-item span {
+    font-size: 10px;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 }

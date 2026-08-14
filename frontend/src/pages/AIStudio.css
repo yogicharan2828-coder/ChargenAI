@@ -20,18 +20,38 @@ gap:24px;
 
 /* ============ Responsive ============ */
 
-@media (max-width: 1024px){
+/* =========================================
+   RESPONSIVE — AI STUDIO
+   ========================================= */
 
-  .studio-grid{
-    grid-template-columns:1fr;
+@media (max-width: 1024px) {
+  .studio-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+    min-width: 0;
   }
-
 }
 
-@media (max-width: 480px){
-
-  .studio{
-    gap:20px;
+@media (max-width: 768px) {
+  .studio {
+    width: 100%;
+    min-width: 0;
+    gap: 16px;
   }
 
+  .studio-grid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .studio {
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .studio-grid {
+    gap: 14px;
+  }
 }

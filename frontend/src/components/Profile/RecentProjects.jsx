@@ -16,11 +16,11 @@ function RecentProjects({ projects }) {
   const [hoveredId, setHoveredId] = useState(null);
 
   return (
-    <div style={styles.section}>
+   <div className="profile-section profile-projects-section" style={styles.section}>
       <h2 style={styles.sectionTitle}>Recent Projects</h2>
 
       {projects && projects.length > 0 ? (
-        <div style={styles.projectGrid}>
+      <div className="profile-project-grid" style={styles.projectGrid}>
           {projects.map((project) => (
             <div
               style={styles.projectCard(hoveredId === project.id)}

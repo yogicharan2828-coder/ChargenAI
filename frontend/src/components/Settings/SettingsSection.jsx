@@ -2,9 +2,21 @@ import { styles } from "./styles";
 
 function SettingsSection({ title, children }) {
   return (
-    <div style={styles.section}>
-      <div style={styles.sectionCard}>
-        <div style={styles.sectionTitle}>{title}</div>
+    <div
+      className="settings-section"
+      style={styles.section}
+    >
+      <div
+        className="settings-section-card"
+        style={styles.sectionCard}
+      >
+        <div
+          className="settings-section-title"
+          style={styles.sectionTitle}
+        >
+          {title}
+        </div>
+
         {children}
       </div>
     </div>

@@ -7,7 +7,8 @@ function ProfileHeader({ name, subtitle, membership }) {
 
   return (
     <div
-      style={styles.headerCard(isHovered)}
+  className="profile-header-card"
+  style={styles.headerCard(isHovered)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

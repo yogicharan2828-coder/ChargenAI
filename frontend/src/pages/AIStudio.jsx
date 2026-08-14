@@ -137,90 +137,122 @@ const handleOpenClearModal = () => {
       setLoading(false);
     }
   };
-  const handleDownloadAll = () => {
-    if(images.length===0){
-        showNotification(
-            "No images available",
-            "error"
-        );
-        return;
-    }
+  const handleDownloadAll = async () => {
+  if (images.length === 0) {
+    showNotification("No images available", "error");
+    return;
+  }
+
+  try {
     const urls = images.map((img) => img.image_url);
-    downloadAllImages(urls);
-    showNotification(
-        "Downloading all images...",
+
+    const result = await downloadAllImages(urls);
+
+    if (result.failed > 0) {
+      showNotification(
+        `${result.downloaded} image(s) downloaded. ${result.failed} failed.`,
+        "error"
+      );
+    } else {
+      showNotification(
+        `All ${result.downloaded} image(s) downloaded successfully!`,
         "success"
+      );
+    }
+  } catch (error) {
+    console.error("Download all failed:", error);
+
+    showNotification(
+      "Failed to download images.",
+      "error"
     );
+  }
 };
-  const handleReusePrompt = (text) => {
+
+const handleReusePrompt = (text) => {
   setPrompt(text);
+
   setTimeout(() => {
     promptRef.current?.focus();
   }, 100);
 };
+
 const handleDeletePrompt = (id) => {
   const updated = recentPrompts.filter(
     (item) => item.id !== id
   );
+
   setRecentPrompts(updated);
+
   showNotification(
     "Prompt deleted successfully!",
     "success"
   );
 };
-  return (
-    <div className="studio">
-     <Toast
-  show={showToast}
-  message={toastMessage}
-  type={toastType}
-  actionLabel={!user && toastType === "error" ? "Login" : null}
-  onAction={
-    !user && toastType === "error"
-      ? () => navigate("/login")
-      : null
-  }
-/>
-      {/* Header */}
-      <Header
-        title="AI Image Generator"
-        subtitle="Create stunning images with the power of AI"
-      />
-      {/* Prompt Section */}
-      <div className="studio-grid">
-        <PromptCard
-          promptRef={promptRef}
-          prompt={prompt}
-          onPromptChange={(e) => setPrompt(e.target.value)}
-          onEnhance={handleEnhancePrompt}
-          onGenerate={handleGenerate}
-          loading={loading}
-        />
-        <PromptTips />
-      </div>
-      {/* Generated Images */}
-    <ImageGallery
-    images={images}
-    loading={loading}
-    showNotification={showNotification}
-    handleDownloadAll={handleDownloadAll}
-    handleOpenClearModal={handleOpenClearModal}
-/>
-      {/* Recent Prompt */}
 
-      <RecentPrompts
-        prompts={recentPrompts}
-        onReuse={handleReusePrompt}
-        onDelete={handleDeletePrompt}
+return (
+  <div className="studio">
+    <Toast
+      show={showToast}
+      message={toastMessage}
+      type={toastType}
+      actionLabel={
+        !user && toastType === "error"
+          ? "Login"
+          : null
+      }
+      onAction={
+        !user && toastType === "error"
+          ? () => navigate("/login")
+          : null
+      }
+    />
+
+    {/* Header */}
+    <Header
+      title="AI Image Generator"
+      subtitle="Create stunning images with the power of AI"
+    />
+
+    {/* Prompt Section */}
+    <div className="studio-grid">
+      <PromptCard
+        promptRef={promptRef}
+        prompt={prompt}
+        onPromptChange={(e) => setPrompt(e.target.value)}
+        onEnhance={handleEnhancePrompt}
+        onGenerate={handleGenerate}
+        loading={loading}
       />
-<ConfirmModal
-    isOpen={showClearModal}
-    title="Clear All Images"
-    message="Are you sure you want to delete all generated images? This action cannot be undone."
-    onConfirm={handleClearAll}
-    onCancel={() => setShowClearModal(false)}
-/>
+
+      <PromptTips />
     </div>
-  );
+
+    {/* Generated Images */}
+    <ImageGallery
+      images={images}
+      loading={loading}
+      showNotification={showNotification}
+      handleDownloadAll={handleDownloadAll}
+      handleOpenClearModal={handleOpenClearModal}
+    />
+
+    {/* Recent Prompts */}
+    <RecentPrompts
+      prompts={recentPrompts}
+      onReuse={handleReusePrompt}
+      onDelete={handleDeletePrompt}
+    />
+
+    <ConfirmModal
+      isOpen={showClearModal}
+      title="Clear All Images"
+      message="Are you sure you want to delete all generated images? This action cannot be undone."
+      onConfirm={handleClearAll}
+      onCancel={() => setShowClearModal(false)}
+    />
+  </div>
+);
 }
+
 export default AIStudio;

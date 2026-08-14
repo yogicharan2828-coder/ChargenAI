@@ -4,6 +4,7 @@ import SettingsRow from "../components/Settings/SettingsRow";
 import { styles } from "../components/Settings/styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import "../components/Settings/Settings.css";
 
 const THEME_OPTIONS = [
   { key: "dark", icon: "🌙", label: "Dark Mode" },
@@ -56,10 +57,23 @@ function Settings() {
   }
 
   return (
-    <div style={styles.page}>
-      <h1 style={styles.pageTitle}>Settings</h1>
+    <div
+      className="settings-page"
+      style={styles.page}
+    >
+      {/* ---- Page Header ---- */}
 
-      <p style={styles.pageSubtitle}>
+      <h1
+        className="settings-page-title"
+        style={styles.pageTitle}
+      >
+        Settings
+      </h1>
+
+      <p
+        className="settings-page-subtitle"
+        style={styles.pageSubtitle}
+      >
         Manage your appearance, preferences, and account.
       </p>
 
@@ -73,8 +87,14 @@ function Settings() {
             label={option.label}
             onClick={() => setTheme(option.key)}
           >
-            <span style={styles.selectedBadge(theme === option.key)}>
-              {theme === option.key ? "Selected" : "Select"}
+            <span
+              style={styles.selectedBadge(
+                theme === option.key
+              )}
+            >
+              {theme === option.key
+                ? "Selected"
+                : "Select"}
             </span>
           </SettingsRow>
         ))}
@@ -83,24 +103,36 @@ function Settings() {
       {/* ---- Preferences ---- */}
 
       <SettingsSection title="Preferences">
-        <SettingsRow icon="🔔" label="Notifications">
+        <SettingsRow
+          icon="🔔"
+          label="Notifications"
+        >
           <div
             style={styles.toggleTrack(notificationsOn)}
             onClick={() =>
               setNotificationsOn((prev) => !prev)
             }
           >
-            <div style={styles.toggleThumb(notificationsOn)} />
+            <div
+              style={styles.toggleThumb(notificationsOn)}
+            />
           </div>
         </SettingsRow>
 
-        <SettingsRow icon="🌐" label="Language">
+        <SettingsRow
+          icon="🌐"
+          label="Language"
+        >
           <select
             style={styles.select}
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={(e) =>
+              setLanguage(e.target.value)
+            }
           >
-            <option value="english">English</option>
+            <option value="english">
+              English
+            </option>
           </select>
         </SettingsRow>
       </SettingsSection>
@@ -184,22 +216,37 @@ function Settings() {
       {/* ---- About ---- */}
 
       <SettingsSection title="About">
-        <div style={styles.aboutBlock}>
+        <div
+          className="settings-about-block"
+          style={styles.aboutBlock}
+        >
           <div style={styles.aboutName}>
             CharGen AI
           </div>
 
-          <div style={styles.aboutText}>
+          <div
+            className="settings-about-text"
+            style={styles.aboutText}
+          >
             AI-powered image generation and creative
             workspace.
           </div>
 
-          <div style={styles.aboutMetaRow}>
-            <span style={styles.aboutTag}>
+          <div
+            className="settings-about-meta"
+            style={styles.aboutMetaRow}
+          >
+            <span
+              className="settings-about-tag"
+              style={styles.aboutTag}
+            >
               v1.0.0
             </span>
 
-            <span style={styles.aboutTag}>
+            <span
+              className="settings-about-tag"
+              style={styles.aboutTag}
+            >
               Portfolio Project
             </span>
           </div>
@@ -209,8 +256,14 @@ function Settings() {
       {/* ---- Toast ---- */}
 
       {toastMessage && (
-        <div style={styles.toastWrap}>
-          <div style={styles.toast}>
+        <div
+          className="settings-toast-wrap"
+          style={styles.toastWrap}
+        >
+          <div
+            className="settings-toast"
+            style={styles.toast}
+          >
             {toastMessage}
           </div>
         </div>

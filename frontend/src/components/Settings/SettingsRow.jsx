@@ -7,21 +7,39 @@ function SettingsRow({ icon, label, description, onClick, children }) {
 
   return (
     <div
+      className="settings-row"
       style={styles.row(isHovered, clickable)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
     >
-      <div style={styles.rowLeft}>
+      <div
+        className="settings-row-left"
+        style={styles.rowLeft}
+      >
         <span style={styles.rowIcon}>{icon}</span>
+
         <div>
-          <div style={styles.rowLabel}>{label}</div>
+          <div
+            className="settings-row-label"
+            style={styles.rowLabel}
+          >
+            {label}
+          </div>
+
           {description && (
-            <div style={styles.rowDescription}>{description}</div>
+            <div style={styles.rowDescription}>
+              {description}
+            </div>
           )}
         </div>
       </div>
-      <div style={styles.rowRight} onClick={(e) => e.stopPropagation()}>
+
+      <div
+        className="settings-row-right"
+        style={styles.rowRight}
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </div>
     </div>

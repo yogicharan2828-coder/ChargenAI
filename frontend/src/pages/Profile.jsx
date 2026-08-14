@@ -7,6 +7,7 @@ import ProfileStats from "../components/Profile/ProfileStats";
 import RecentImages from "../components/Profile/RecentImages";
 import RecentProjects from "../components/Profile/RecentProjects";
 import ProfileSkeleton from "../components/Profile/ProfileSkeleton";
+import "../components/Profile/Profile.css";
 
 // Google/GitHub/email-password users don't share one metadata shape,
 // so try the common cases in order before falling back.
@@ -45,7 +46,9 @@ function Profile() {
       try {
         setLoading(true);
         setError(null);
+
         const data = await getProfile();
+
         if (isMounted) {
           setProfile(data);
         }
@@ -67,20 +70,30 @@ function Profile() {
     };
   }, [authLoading, user]);
 
+  /* -----------------------------------------
+     Loading State
+     ----------------------------------------- */
   if (authLoading || loading) {
     return (
-      <div style={styles.page}>
+      <div className="profile-page" style={styles.page}>
         <ProfileSkeleton />
       </div>
     );
   }
 
+  /* -----------------------------------------
+     Not Logged In
+     ----------------------------------------- */
   if (!user) {
     return (
-      <div style={styles.page}>
+      <div className="profile-page" style={styles.page}>
         <div style={styles.emptyState}>
           <div style={styles.emptyIconBadge}>🔒</div>
-          <div style={styles.emptyTitle}>You're not logged in</div>
+
+          <div style={styles.emptyTitle}>
+            You're not logged in
+          </div>
+
           <div style={styles.emptyText}>
             Please log in to view your profile.
           </div>
@@ -89,20 +102,32 @@ function Profile() {
     );
   }
 
+  /* -----------------------------------------
+     Error State
+     ----------------------------------------- */
   if (error) {
     return (
-      <div style={styles.page}>
+      <div className="profile-page" style={styles.page}>
         <div style={styles.emptyState}>
           <div style={styles.emptyIconBadge}>⚠️</div>
-          <div style={styles.emptyTitle}>Couldn't load profile</div>
-          <div style={styles.emptyText}>{error}</div>
+
+          <div style={styles.emptyTitle}>
+            Couldn't load profile
+          </div>
+
+          <div style={styles.emptyText}>
+            {error}
+          </div>
         </div>
       </div>
     );
   }
 
+  /* -----------------------------------------
+     Profile
+     ----------------------------------------- */
   return (
-    <div style={styles.page}>
+    <div className="profile-page" style={styles.page}>
       <ProfileHeader
         name={getDisplayName(user)}
         email={user.email}
@@ -117,9 +142,13 @@ function Profile() {
         memberSince={profile?.member_since}
       />
 
-      <RecentImages images={profile?.recent_images} />
+      <RecentImages
+        images={profile?.recent_images}
+      />
 
-      <RecentProjects projects={profile?.recent_projects} />
+      <RecentProjects
+        projects={profile?.recent_projects}
+      />
     </div>
   );
 }

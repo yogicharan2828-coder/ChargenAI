@@ -16,11 +16,11 @@ function RecentImages({ images }) {
   const [hoveredId, setHoveredId] = useState(null);
 
   return (
-    <div style={styles.section}>
+   <div className="profile-section profile-images-section" style={styles.section}>
       <h2 style={styles.sectionTitle}>Recent Images</h2>
 
       {images && images.length > 0 ? (
-        <div style={styles.imageGrid}>
+        <div className="profile-image-grid" style={styles.imageGrid}>
           {images.map((image) => {
             const isHovered = hoveredId === image.id;
             return (

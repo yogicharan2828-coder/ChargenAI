@@ -22,7 +22,7 @@ function ProfileStats({ imagesGenerated, favoritesCount, projectsCount, memberSi
   ];
 
   return (
-    <div style={styles.statsGrid}>
+    <div className="profile-stats-grid" style={styles.statsGrid}>
       {stats.map((stat) => (
         <div
           style={styles.statCard(hoveredLabel === stat.label)}

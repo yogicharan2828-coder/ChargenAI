@@ -69,24 +69,24 @@
 
 /* ============ Responsive ============ */
 
-@media (max-width: 768px){
-
-  .tips-card{
-    padding:18px;
+@media (max-width: 768px) {
+  .tips-card {
+    padding: 18px;
+    width: 100%;
+    box-sizing: border-box;
   }
-
 }
 
-@media (max-width: 480px){
-
-  .tips-card{
-    padding:14px;
-    border-radius:16px;
+@media (max-width: 480px) {
+  .tips-card {
+    padding: 14px;
+    border-radius: 16px;
+    width: 100%;
   }
 
-  .tips-card li{
+  .tips-card li {
     padding: 9px 10px 9px 22px;
     font-size: 13.5px;
+    line-height: 1.45;
   }
-
 }

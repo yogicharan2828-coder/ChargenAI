@@ -9,6 +9,7 @@ import ProjectDetails from "../components/Projects/ProjectDetails";
 import EmptyProjects from "../components/Projects/EmptyProjects";
 import ProjectSkeleton from "../components/Projects/ProjectSkeleton";
 import { styles } from "../components/Projects/styles";
+
 import {
   getProjects,
   createProject,
@@ -289,13 +290,83 @@ function Projects() {
         .cg-proj-modal-overlay { animation: cgFadeIn 0.18s ease-out; }
         .cg-proj-modal-box { animation: cgScaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1); }
         .cg-proj-empty-badge { animation: cgPulse 3s ease-in-out infinite; }
+@media (max-width: 480px) {
+  .cg-proj-page {
+    padding: 14px !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-        @media (max-width: 480px) {
-          .cg-proj-page { padding: 18px !important; }
-          .cg-proj-grid, .cg-proj-image-grid { grid-template-columns: 1fr !important; }
-          .cg-proj-modal-box { width: 100% !important; padding: 22px !important; }
-          .cg-proj-detail-topbar { flex-direction: column !important; align-items: flex-start !important; }
-        }
+  /* Main project cards */
+  .cg-proj-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    width: 100%;
+  }
+
+  /* Project detail image grid */
+  .cg-proj-image-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    width: 100%;
+  }
+
+  /* Project creation/edit modal */
+  .cg-proj-modal-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20px !important;
+    box-sizing: border-box;
+  }
+
+  /* Detail back button area */
+  .cg-proj-detail-topbar {
+    flex-direction: row !important;
+    align-items: center !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Project detail information */
+  .cg-proj-detail-topbar + div {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Make project buttons comfortable to tap */
+  .cg-proj-edit-btn,
+  .cg-proj-delete-btn,
+  .cg-proj-back-btn,
+  .cg-proj-download-btn,
+  .cg-proj-remove-btn {
+    min-height: 42px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .cg-proj-page {
+    padding: 12px !important;
+  }
+
+  .cg-proj-grid {
+    gap: 12px !important;
+  }
+
+  .cg-proj-image-grid {
+    gap: 14px !important;
+  }
+
+  .cg-proj-modal-box {
+    padding: 18px !important;
+  }
+
+  .cg-proj-edit-btn,
+  .cg-proj-delete-btn,
+  .cg-proj-back-btn,
+  .cg-proj-download-btn,
+  .cg-proj-remove-btn {
+    min-height: 40px !important;
+  }
+}
       `}</style>
 
       <Toast show={showToast} message={toastMessage} type={toastType} />
