@@ -742,8 +742,13 @@ Computer Science Engineering Student & Full-Stack / AI Developer
 I build practical applications combining modern frontend development, backend APIs, databases, and AI technologies.
 
 Connect With Me
+
 🌐 Portfolio:https://yogi-charan-sharma-portfolio.netlify.app/
+
+
 💼 LinkedIn:(https://www.linkedin.com/in/yogi-charan-sharma-235b62282/)
+
+
 🐙 GitHub: https://github.com/yogicharan2828-coder/
 
                                        ⭐ Support
