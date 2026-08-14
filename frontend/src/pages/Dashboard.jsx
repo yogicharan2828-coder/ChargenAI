@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import { getImages, getFavorites, getProjects } from "../api/ai";
+import { downloadImage } from "../utils/downloadImage";
 function Dashboard() {
   const navigate = useNavigate();
   const [images, setImages] = useState([]);
@@ -38,23 +39,14 @@ function Dashboard() {
   loadDashboard();
 }, []);
 
-  const handleDownload = (item) => {
-    try {
-      const imageUrl = new URL(item.image);
-      const filename = imageUrl.pathname.split("/").pop();
-      const downloadUrl = `${imageUrl.origin}/download/${filename}`;
-
-      const a = document.createElement("a");
-      a.href = downloadUrl;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (error) {
-      console.error("Download failed:", error);
-      alert("Failed to download image. Please try again.");
-    }
-  };
+  const handleDownload = async (item) => {
+  try {
+    await downloadImage(item.image);
+  } catch (error) {
+    console.error("Download failed:", error);
+    alert("Failed to download image. Please try again.");
+  }
+};
 
   const today = new Date().toDateString();
   const todayImages = images.filter(

@@ -1,29 +1,54 @@
-let downloadCount = 1;
+import { downloadImage } from "./downloadImage";
 
-export const downloadAllImages = (images) => {
-  images.forEach((imageUrl) => {
+export const downloadAllImages = async (images) => {
+  if (!Array.isArray(images) || images.length === 0) {
+    throw new Error("No images available for download");
+  }
+
+  const results = [];
+
+  // Download one image at a time.
+  // This is more reliable than triggering many downloads simultaneously,
+  // especially on mobile browsers.
+  for (let i = 0; i < images.length; i++) {
+    const imageUrl = images[i];
+
     try {
-      const url = new URL(imageUrl);
-      const filename = url.pathname.split("/").pop();
+      await downloadImage(imageUrl);
 
-      if (!filename) {
-        console.error("Invalid image URL:", imageUrl);
-        return;
+      results.push({
+        imageUrl,
+        success: true,
+      });
+
+      // Small delay between downloads.
+      // Helps prevent browsers from blocking multiple downloads.
+      if (i < images.length - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 300));
       }
-
-      const downloadUrl = `${url.origin}/download/${encodeURIComponent(filename)}`;
-
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = `chargenai-${downloadCount}.png`;
-
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      downloadCount++;
     } catch (error) {
-      console.error("Download failed:", error);
+      console.error(`Failed to download image ${i + 1}:`, error);
+
+      results.push({
+        imageUrl,
+        success: false,
+        error,
+      });
     }
-  });
+  }
+
+  const successful = results.filter((item) => item.success);
+  const failed = results.filter((item) => !item.success);
+
+  // If every image failed, treat the entire operation as failed.
+  if (successful.length === 0) {
+    throw new Error("Failed to download images");
+  }
+
+  return {
+    total: images.length,
+    downloaded: successful.length,
+    failed: failed.length,
+    results,
+  };
 };
