@@ -7,7 +7,7 @@ import ProfileStats from "../components/Profile/ProfileStats";
 import RecentImages from "../components/Profile/RecentImages";
 import RecentProjects from "../components/Profile/RecentProjects";
 import ProfileSkeleton from "../components/Profile/ProfileSkeleton";
-import "../components/profile/profile.css";
+import "../components/Profile/Profile.css";
 
 // Google/GitHub/email-password users don't share one metadata shape,
 // so try the common cases in order before falling back.

@@ -4,7 +4,7 @@ import SettingsRow from "../components/Settings/SettingsRow";
 import { styles } from "../components/Settings/styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import "../components/settings/settings.css";
+import "../components/Settings/Settings.css";
 
 const THEME_OPTIONS = [
   { key: "dark", icon: "🌙", label: "Dark Mode" },
