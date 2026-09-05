@@ -743,7 +743,7 @@ I build practical applications combining modern frontend development, backend AP
 
 Connect With Me
 
-🌐 Portfolio:https://yogi-charan-sharma-portfolio.netlify.app/
+🌐 Portfolio:https://yogicharansharma.netlify.app/
 
 
 💼 LinkedIn:(https://www.linkedin.com/in/yogi-charan-sharma-235b62282/)
